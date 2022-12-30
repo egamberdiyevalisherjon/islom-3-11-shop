@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 // const CartLink = ({ cart }) => {
 //   const [show, setShow] = useState(false);
@@ -42,6 +42,14 @@ import { Link } from "react-router-dom";
 // };
 
 const Header = ({ cart }) => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    navigate(`/login?afterPage=${pathname}`);
+  }
+
   return (
     <header className="bg-info py-3 sticky-top">
       <nav className="container d-flex align-items-center justify-content-between">
@@ -75,6 +83,11 @@ const Header = ({ cart }) => {
                 <span className="visually-hidden">unread messages</span>
               </span>
             </Link>
+          </li>
+          <li className="list-group-item">
+            <button className="btn" onClick={handleLogout}>
+              <i className="fa-solid fa-right-from-bracket fa-2x text-white"></i>
+            </button>
           </li>
         </ul>
       </nav>
