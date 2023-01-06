@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import useUrlParams from "../Hooks/useUrlParams";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
   const { afterPage = "/" } = useUrlParams();
@@ -9,9 +10,21 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   async function handleRegister(e) {
     e.preventDefault();
-    let { data: { token } = { token: null } } = await axios
+    let {
+      data: {
+        token,
+        user = {
+          name: "john",
+          email: "john@gmail.com",
+          role: "ADMIN",
+          address: { city: "Tashkent" },
+        },
+      } = { token: null },
+    } = await axios
       .post("https://reqres.in/api/register", state)
       .catch((err) => {
         if (err.response.status === 400) {
@@ -23,6 +36,7 @@ const Register = () => {
     if (!token) return;
 
     localStorage.token = token;
+    dispatch({ type: "LOAD_USER_DATA", payload: user });
     navigate(afterPage);
   }
 

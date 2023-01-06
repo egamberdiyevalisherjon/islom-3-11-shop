@@ -2,10 +2,10 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const PrivateRoute = ({ children, redirect = "/login" }) => {
+const ProtectedRoute = ({ children, redirect = "/login", role }) => {
   let user = useSelector((state) => state.user);
 
-  return user.role ? children : <Navigate to={redirect} />;
+  return user.role === role ? children : <Navigate to={redirect} />;
 };
 
-export default PrivateRoute;
+export default ProtectedRoute;

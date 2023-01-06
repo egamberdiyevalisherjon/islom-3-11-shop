@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import useUrlParams from "../Hooks/useUrlParams";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
   const { afterPage = "/" } = useUrlParams();
@@ -10,20 +11,33 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user);
+
   async function handleLogin(e) {
     e.preventDefault();
-    let { data: { token } = { token: null } } = await axios
-      .post("https://reqres.in/api/login", state)
-      .catch((err) => {
-        if (err.response.status === 400) {
-          alert("Notogri Malumot");
-        }
-        return {};
-      });
+    let {
+      data: {
+        token,
+        user = {
+          name: "john",
+          email: "john@gmail.com",
+          role: "ADMIN",
+          address: { city: "Tashkent" },
+        },
+      } = { token: null },
+    } = await axios.post("https://reqres.in/api/login", state).catch((err) => {
+      if (err.response.status === 400) {
+        alert("Notogri Malumot");
+      }
+      return {};
+    });
 
     if (!token) return;
 
     localStorage.token = token;
+    dispatch({ type: "LOAD_USER_DATA", payload: user });
     navigate(afterPage);
   }
 
@@ -32,8 +46,7 @@ const Login = () => {
   }
 
   useEffect(() => {
-    let token = localStorage.token;
-    if (token) navigate(afterPage);
+    if (user.role) navigate(afterPage);
   }, []);
 
   return (
