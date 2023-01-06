@@ -2,6 +2,11 @@ JSX => JavaScript and XML
 
 JSS => CSS in JS
 
+redux => js library
+      => state management
+
+react-redux => react app connects to redux
+
 Prop drilling
 
 state => One-direction data flow
