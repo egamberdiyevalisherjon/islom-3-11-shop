@@ -1,9 +1,17 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch, connect } from "react-redux";
 
-const Payment = ({ cart, clearCart }) => {
+const Payment = () => {
   const navigate = useNavigate();
+  const cart = useSelector((state) => state.cart);
   const total = cart.reduce((p, c) => p + c.price * c.count, 0);
+
+  const dispatch = useDispatch();
+
+  function clearCart() {
+    dispatch({ type: "CLEAR_CART" });
+  }
 
   useEffect(() => {
     if (!total) navigate("/shop");
@@ -45,5 +53,19 @@ const Payment = ({ cart, clearCart }) => {
     </section>
   );
 };
+
+// const mapStateToProp = (state) => {
+//   return { cart: state.cart };
+// };
+
+// const mapDispatchToProp = (dispatch) => {
+//   return {
+//     clearCart: function () {
+//       dispatch({ type: "CLEAR_CART" });
+//     },
+//   };
+// };
+
+// export default connect(mapStateToProp, mapDispatchToProp)(Payment);
 
 export default Payment;

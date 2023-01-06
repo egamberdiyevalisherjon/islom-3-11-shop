@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 
-const ProductDetails = ({ addToCart }) => {
+const ProductDetails = () => {
   const { id } = useParams();
 
   const [product, setProduct] = useState(null);
+
+  const dispatch = useDispatch();
+
+  const addToCart = (p) => {
+    dispatch({ type: "ADD_TO_CART", payload: p });
+  };
 
   useEffect(() => {
     let unmounted = false;

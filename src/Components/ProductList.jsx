@@ -1,8 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-const ProductCard = ({ product, addToCart }) => {
+const ProductCard = ({ product }) => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  function addToCart(p) {
+    dispatch({ type: "ADD_TO_CART", payload: p });
+  }
+
   return (
     <div className="card text-dark">
       <img src={product.image} height={200} alt="" className="card-image-top" />

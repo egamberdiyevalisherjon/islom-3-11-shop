@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 // const CartLink = ({ cart }) => {
 //   const [show, setShow] = useState(false);
@@ -41,9 +42,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 //   );
 // };
 
-const Header = ({ cart }) => {
+const Header = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  const cart = useSelector((state) => state.cart);
 
   function handleLogout() {
     localStorage.removeItem("token");

@@ -1,8 +1,27 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
-const Cart = ({ cart, removeFromCart, decreaseCartItem, increaseCartItem }) => {
+const Cart = () => {
   const navigate = useNavigate();
+  const cart = useSelector((state) => state.cart);
+
+  const dispatch = useDispatch();
+
+  // , ,
+
+  function removeFromCart(id) {
+    dispatch({ type: "REMOVE_FROM_CART", payload: id });
+  }
+
+  function decreaseCartItem(id) {
+    dispatch({ type: "DEC_ITEM_COUNT", payload: id });
+  }
+
+  function increaseCartItem(id) {
+    dispatch({ type: "INC_ITEM_COUNT", payload: id });
+  }
+
   return (
     <section id="cart">
       <h2 className="text-center">Cart</h2>
